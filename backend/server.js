@@ -4,7 +4,7 @@ const connectDB = require('./config/db');
 const helmet = require('helmet');
 const cors = require('cors');
 
-// Import Routes
+// Import routes
 const authRoutes = require('./routes/authRoutes');
 const noteRoutes = require('./routes/noteRoutes');
 
@@ -17,19 +17,19 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(express.json());
-app.use(helmet());
-app.use(cors());
+app.use(express.json()); // Parse JSON requests
+app.use(helmet());       // Add security headers
+app.use(cors({ origin: 'http://localhost:3000' })); // Allow frontend requests
 
-// API Routes
+// Register routes
 app.use('/api/auth', authRoutes);
 app.use('/api/notes', noteRoutes);
 
-// Sample Route
+// Default route
 app.get('/', (req, res) => {
     res.send('API is running...');
 });
 
+// Start the server
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
